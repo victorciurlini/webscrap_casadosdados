@@ -14,9 +14,11 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
 import warnings
+from modulos.conecta_db import *
+from modulos.funcoes_aux import *
+from logger.Logger import etlLogger
+import math
 warnings.filterwarnings("ignore", category=FutureWarning)
-
-
 
 
 class ScrapyURLs(scrapy.Spider):
@@ -68,17 +70,14 @@ class ScrapyURLs(scrapy.Spider):
         }
 
         datas = []
-
         for i in range(1, 51):
             datas.append({"query": query, "range_query": range_query, "page": i})
         
         return datas
 
     def parse(self, response):
-        self.log(f"\n\n URL DO RESPONSE: {response.url}\n\n")
-        mydata = ast.literal_eval(response.text.replace(":false", ":False").replace(":true", ":True"))
-        self.log(f"\n\nMy data: {mydata}\n\n")
-        
+
+        mydata = ast.literal_eval(response.text.replace(":false", ":False").replace(":true", ":True"))     
         cnpjs, names =  self.return_cnpjs(mydata)
         names = self.name_processing(names)
         self.cnpjs = cnpjs
@@ -88,11 +87,14 @@ class ScrapyURLs(scrapy.Spider):
         for url in urls:
             self.urls.append(url)
             URL_PAGES.append(url)
-        
 
     def return_cnpjs(self, mydata):
         self.log("Lendo todos os CNPJs")
-        list_cadastros = mydata["data"]["cnpj"]
+        try:
+            list_cadastros = mydata["data"]["cnpj"]
+        except Exception as e:
+            self.log(f"Erro ao ler os CNPJs:\nmydata: {mydata}\nErro: {e}\n")
+            list_cadastros = []
         cnpjs = []
         names = []
         for cadastro in list_cadastros:
@@ -120,28 +122,27 @@ class ScrapyInformations(scrapy.Spider):
         super(ScrapyInformations, self).__init__(*args, **kwargs)
         self.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52",
         "Content-Type":"text/html"}
-        self.dict_infos = {"CNPJ": "Não consta",
-                "Razão Social": "Não consta",
-                "Nome Fantasia": "Não consta",
-                "Tipo": "Não consta",
-                "Data Abertura": "Não consta",
-                "Situação Cadastral": "Não consta",
-                "Data da Situação Cadastral": "Não consta",
-                "Capital Social": "Não consta",
-                "Natureza Jurídica": "Não consta",
-                "Empresa MEI": "Não consta",
-                "Logradouro": "Não consta",
-                "Número": "Não consta",
-                "Complemento": "Não consta",
-                "CEP": "Não consta",
-                "Bairro": "Não consta",
-                "Município": "Não consta",
-                "UF": "Não consta",
-                "Telefone": "Não consta",
-                "E-MAIL": "Não consta",
-                "Quadro Societário": "Não consta"}
+        self.dict_infos = {"CNPJ": "NaoConsta",
+                "Razão Social": "NaoConsta",
+                "Nome Fantasia": "NaoConsta",
+                "Tipo": "NaoConsta",
+                "Data Abertura": "NaoConsta",
+                "Situação Cadastral": "NaoConsta",
+                "Data da Situação Cadastral": "NaoConsta",
+                "Capital Social": "NaoConsta",
+                "Natureza Jurídica": "NaoConsta",
+                "Empresa MEI": "NaoConsta",
+                "Logradouro": "NaoConsta",
+                "Número": "NaoConsta",
+                "Complemento": "NaoConsta",
+                "CEP": "NaoConsta",
+                "Bairro": "NaoConsta",
+                "Município": "NaoConsta",
+                "UF": "NaoConsta",
+                "Telefone": "NaoConsta",
+                "E-MAIL": "NaoConsta",
+                "Quadro Societário": "NaoConsta"}
         self.final_dicts = []
-
 
     def start_requests(self):
         self.log(f"\n\nIniciando a aranha: {self.name}\n\n")
@@ -158,13 +159,13 @@ class ScrapyInformations(scrapy.Spider):
         TEXT_FROM_PAGES = []
         [TEXT_FROM_PAGES.append(pages.extract().replace("\n", "").strip()) for pages in PATH_TO_PAGES.xpath(PAGE_TEXT)]
         new_list = self.remove_blank_elements(TEXT_FROM_PAGES)
+        
         telefone_concatenate = self.concat_telefones(new_list)
         partners_concatenate = self.concat_partners(telefone_concatenate)
         final_list = self.check_missing_data(partners_concatenate)
         final_dict = self.generate_info_dict(final_list)
         self.final_dicts.append(final_dict)
         self.export_database()
-
 
     def remove_blank_elements(self, list_info):
         new_list = [x for x in list_info if x != ""]
@@ -198,7 +199,7 @@ class ScrapyInformations(scrapy.Spider):
         concatenate_partners = telefone_concatenate
         people_role = []
         if concatenate_partners[-1] in "Quadro Societário":
-            concatenate_partners.append("Não há sócios")
+            concatenate_partners.append("naoHaSocios")
             
         else:
             for index, value in enumerate(concatenate_partners):
@@ -221,16 +222,15 @@ class ScrapyInformations(scrapy.Spider):
             if "E-MAIL" in value:
                 EMAIL_INDEX = index+1
                 if final_list[EMAIL_INDEX] == 'Quadro Societário':
-                    final_list.insert(EMAIL_INDEX, "Não consta")
+                    final_list.insert(EMAIL_INDEX, "NaoConsta")
             if "Complemento" in value:
                 comp_index = index+1
                 if final_list[comp_index] == 'CEP':
-                    final_list.insert(comp_index, "Não consta")
+                    final_list.insert(comp_index, "NaoConsta")
 
         return final_list
 
     def generate_info_dict(self, final_list):
-
         for key, value in self.dict_infos.items():
             for index, infos in enumerate(final_list):
                 if key == infos:
@@ -239,14 +239,44 @@ class ScrapyInformations(scrapy.Spider):
 
         return self.dict_infos
 
+    def alterar_nomes_colunas(self, df):
+        column_mapping = {
+        'CNPJ': 'CNPJ',
+        'Razão Social': 'RazaoSocial',
+        'Nome Fantasia': 'NomeFantasia',
+        'Tipo': 'Tipo',
+        'Data Abertura': 'DataAbertura',
+        'Situação Cadastral': 'SituacaoCadastral',
+        'Data da Situação Cadastral': 'DataSituacaoCadastral',
+        'Capital Social': 'CapitalSocial',
+        'Natureza Jurídica': 'NaturezaJuridica',
+        'Empresa MEI': 'EmpresaMEI',
+        'Logradouro': 'Logradouro',
+        'Número': 'Numero',
+        'Complemento': 'Complemento',
+        'CEP': 'CEP',
+        'Bairro': 'Bairro',
+        'Município': 'Municipio',
+        'UF': 'UF',
+        'Telefone': 'Telefone',
+        'E-MAIL': 'EMAIL',
+        'Quadro Societário': 'QuadroSocietario'
+        }
+        new_df = df.rename(columns=column_mapping)
+        return new_df
+
     def export_database(self):
         df = pd.DataFrame(columns=self.dict_infos.keys())
         df = df.append(self.final_dicts, ignore_index=True, sort=False)
+        new_df = self.alterar_nomes_colunas(df)
         if os.path.exists("dados/informacoes_cnpj_sem_cargos.csv"):
-            df.to_csv("dados/informacoes_cnpj_sem_cargos.csv", mode="a", index=False, header=False, sep="|")
+            new_df.to_csv("dados/informacoes_cnpj_sem_cargos.csv", mode="a", index=False, header=False, sep="|")
         else:
-            df.to_csv("dados/informacoes_cnpj_sem_cargos.csv", index=False, sep="|")
+            new_df.to_csv("dados/informacoes_cnpj_sem_cargos.csv", index=False, sep="|")
         self.final_dicts = []
+
+
+
 
 if __name__ == "__main__":
     URL_PAGES = []
@@ -283,6 +313,22 @@ if __name__ == "__main__":
         reactor.stop()
     crawl()
     reactor.run()
+
+    ingest = True
+    nome_arquivo = 'dados/informacoes_cnpj_sem_cargos.csv'
+    df = pd.read_csv(nome_arquivo, sep='|')
+    LOGGER_OBJ = etlLogger(project_name='casa_dos_dados')
+
+    conn, cur = connect_db(LOGGER_OBJ)
+    df_dados_tratados = processa_dados(df)
+    if ingest == True:
+        ingest_data(df_dados_tratados, 'dev.flat_table', conn, cur, LOGGER_OBJ)
+        ingest = False
     
+    else:
+        LOGGER_OBJ.info("Não há dados para ingestão")
+
+    cur.close()
+    conn.close()
 
     
