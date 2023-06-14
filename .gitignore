@@ -5,3 +5,7 @@ dados/
 config/*
 logs/*
 config/*
+*/__pycache__/*
+docker-compose.yml
+Dockerfile
+my-deployment/*

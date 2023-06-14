@@ -3,6 +3,10 @@ import sys
 import re
 import pandas as pd
 from modulos.funcoes_aux import read_yaml
+import boto3
+
+
+
 
 def connect_db(LOGGER_OBJ):
     LOGGER_OBJ.info('Conectando ao banco de dados')
@@ -24,37 +28,7 @@ def connect_db(LOGGER_OBJ):
 
     return conn, cur
 
-def remover_espacos_em_branco(df):
-    # Aplica a função lambda em cada elemento do DataFrame
-    df = df.applymap(lambda x: re.sub(r'\s{2,}', ' ', str(x)))
 
-    return df
-
-def tratar_capital_social(df, coluna):
-    new_df = df.copy()
-    new_df[coluna] = new_df[coluna].str.replace('R\$', '')  # Remove o símbolo de R$
-    new_df[coluna] = new_df[coluna].str.replace('.', '')  # Remove o separador de milhares
-    new_df[coluna] = new_df[coluna].str.replace(',', '.')  # Substitui o separador decimal por ponto
-    new_df[coluna] = new_df[coluna].astype(float)  # Converte para o tipo floa
-
-    return new_df
-
-def converte_data(df, coluna):
-    new_df = df.copy()
-    new_df[coluna] = pd.to_datetime(new_df[coluna], format='%d/%m/%Y')  # Converte para o tipo data
-    new_df[coluna].dt.strftime('%Y-%m-%d %H:%M:%S')
-    new_df[coluna] = new_df[coluna].dt.strftime('%Y-%m-%d %H:%M:%S')
-    # new_df[coluna] = str(new_df[coluna])
-
-    return new_df
-
-def processa_dados(df):
-    df = remover_espacos_em_branco(df)
-    df_capital_tratado = tratar_capital_social(df, 'CapitalSocial')
-    df_data_abertura = converte_data(df_capital_tratado, 'DataAbertura')
-    df_dados_tratados = converte_data(df_data_abertura, 'DataSituacaoCadastral')
-
-    return df_dados_tratados
 
 def ingest_data(df_ingest, table, conn, cur, LOGGER_OBJ):
     LOGGER_OBJ.info(f"Realizando ingestão de dados da tabela {table}")
