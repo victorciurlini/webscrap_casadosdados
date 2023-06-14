@@ -1,4 +1,7 @@
 .pyenv/
 __pycache__/
 dados/
-notebooks/
+*.ipynb
+config/*
+logs/*
+config/*
