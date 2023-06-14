@@ -1,26 +1,18 @@
 import scrapy
-import requests
 import os
 from scrapy.selector import Selector
 from scrapy.crawler import CrawlerProcess
-from scrapy.http import HtmlResponse
 import ast
-import requests
 import json
 import re
 import pandas as pd
-from time import sleep
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
 import warnings
-from modulos.conecta_db import *
-from modulos.funcoes_aux import *
-from logger.Logger import etlLogger
-import math
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-
+URL_PAGES = []
 class ScrapyURLs(scrapy.Spider):
     name = "ScrapyURLs"
     # allowed_domains = ["casadosdados.com.br"]
@@ -42,6 +34,8 @@ class ScrapyURLs(scrapy.Spider):
     }
     # Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.37
     urls = []
+    url_list = []
+    
     def start_requests(self):
         self.log(f"\n\nIniciando a aranha:{self.name}")
         datas = []
@@ -76,7 +70,7 @@ class ScrapyURLs(scrapy.Spider):
         return datas
 
     def parse(self, response):
-
+        global URL_PAGES
         mydata = ast.literal_eval(response.text.replace(":false", ":False").replace(":true", ":True"))     
         cnpjs, names =  self.return_cnpjs(mydata)
         names = self.name_processing(names)
@@ -86,7 +80,9 @@ class ScrapyURLs(scrapy.Spider):
         urls = self.create_urls()
         for url in urls:
             self.urls.append(url)
-            URL_PAGES.append(url)
+            # URL_PAGES.append(url)
+        URL_PAGES.extend(self.urls)
+
 
     def return_cnpjs(self, mydata):
         self.log("Lendo todos os CNPJs")
@@ -146,8 +142,8 @@ class ScrapyInformations(scrapy.Spider):
 
     def start_requests(self):
         self.log(f"\n\nIniciando a aranha: {self.name}\n\n")
-        datas = []
-        requests = []
+        # datas = []
+        # requests = []
         for url in self.start_urls:
             yield scrapy.Request(url=url, method="GET", headers = self.headers, callback=self.parse)
     
@@ -266,17 +262,33 @@ class ScrapyInformations(scrapy.Spider):
         return new_df
 
     def export_database(self):
+
+        output_file = "dados/informacoes_cnpj_sem_cargos.csv"
+        bucket_name = "bucketdatabasecasadosdados"
         df = pd.DataFrame(columns=self.dict_infos.keys())
         df = df.append(self.final_dicts, ignore_index=True, sort=False)
+        
         new_df = self.alterar_nomes_colunas(df)
-        if os.path.exists("dados/informacoes_cnpj_sem_cargos.csv"):
-            new_df.to_csv("dados/informacoes_cnpj_sem_cargos.csv", mode="a", index=False, header=False, sep="|")
+        if os.path.exists(output_file):
+            new_df.to_csv(output_file, mode="a", index=False, header=False, sep="|")
         else:
-            new_df.to_csv("dados/informacoes_cnpj_sem_cargos.csv", index=False, sep="|")
+            new_df.to_csv(output_file, index=False, sep="|")
         self.final_dicts = []
 
+        # self.ingest_csv_to_s3(output_file,
+        #                       bucket_name,
+        #                       f'{bucket_name}/informacoes_cnpj_sem_cargos.csv')
 
+    def ingest_csv_to_s3(file_path, bucket_name, s3_key):
+        # Configurar o cliente do S3
+        s3_client = boto3.client('s3')
 
+        try:
+            # Realizar a ingestão do arquivo CSV para o bucket do S3
+            s3_client.upload_file(file_path, bucket_name, s3_key)
+            print("Ingestão concluída com sucesso!")
+        except Exception as e:
+            print(f"Falha na ingestão do arquivo: {e}")
 
 if __name__ == "__main__":
     URL_PAGES = []
@@ -313,22 +325,3 @@ if __name__ == "__main__":
         reactor.stop()
     crawl()
     reactor.run()
-
-    ingest = True
-    nome_arquivo = 'dados/informacoes_cnpj_sem_cargos.csv'
-    df = pd.read_csv(nome_arquivo, sep='|')
-    LOGGER_OBJ = etlLogger(project_name='casa_dos_dados')
-
-    conn, cur = connect_db(LOGGER_OBJ)
-    df_dados_tratados = processa_dados(df)
-    if ingest == True:
-        ingest_data(df_dados_tratados, 'dev.flat_table', conn, cur, LOGGER_OBJ)
-        ingest = False
-    
-    else:
-        LOGGER_OBJ.info("Não há dados para ingestão")
-
-    cur.close()
-    conn.close()
-
-    

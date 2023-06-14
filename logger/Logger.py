@@ -48,13 +48,8 @@ class etlLogger(Logger):
         return LOG_EXEC_ATUAL
     
     def verifica_cria_dir_log(self, project_name): 
-        path_server = Path("F:/", "logs", project_name) 
-        path_local = Path("logs", project_name) 
-        path = ""
-        try: 
-            os.mkdir(path_server) if not Path(path_server).exists() else None
-            path = path_server
-        except: 
-            os.mkdir(path_local) if not path_local.exists() else None
-            path = path_local
-            return Path(path)
+        path_local = Path("logs", project_name)
+        os.mkdir("logs") if not Path("logs").exists() else None
+        os.mkdir(path_local) if not path_local.exists() else None
+        path = path_local
+        return Path(path)
