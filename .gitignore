@@ -1,4 +1,4 @@
-.pyenv/
+pyenv/
 __pycache__/
 dados/
 *.ipynb
@@ -9,3 +9,4 @@ config/*
 docker-compose.yml
 Dockerfile
 my-deployment/*
+.env

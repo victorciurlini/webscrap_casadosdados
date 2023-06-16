@@ -83,7 +83,6 @@ class ScrapyURLs(scrapy.Spider):
             # URL_PAGES.append(url)
         URL_PAGES.extend(self.urls)
 
-
     def return_cnpjs(self, mydata):
         self.log("Lendo todos os CNPJs")
         try:
@@ -278,17 +277,6 @@ class ScrapyInformations(scrapy.Spider):
         # self.ingest_csv_to_s3(output_file,
         #                       bucket_name,
         #                       f'{bucket_name}/informacoes_cnpj_sem_cargos.csv')
-
-    def ingest_csv_to_s3(file_path, bucket_name, s3_key):
-        # Configurar o cliente do S3
-        s3_client = boto3.client('s3')
-
-        try:
-            # Realizar a ingestão do arquivo CSV para o bucket do S3
-            s3_client.upload_file(file_path, bucket_name, s3_key)
-            print("Ingestão concluída com sucesso!")
-        except Exception as e:
-            print(f"Falha na ingestão do arquivo: {e}")
 
 if __name__ == "__main__":
     URL_PAGES = []

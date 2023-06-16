@@ -1,45 +1,15 @@
-import ast
-import requests
-import json
-import re
-import pandas as pd
-import math
-import boto3
-import warnings
-from modulos.crawlers import URL_PAGES
-
-from time import sleep
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
-from scrapy.utils.project import get_project_settings
 
 from modulos.conecta_db import *
 from modulos.funcoes_aux import *
 from modulos.crawlers import *
-from logger.Logger import etlLogger
+from modulos.ingestao_dados import *
+from modulos.crawlers import URL_PAGES
+
 
 warnings.filterwarnings("ignore", category=FutureWarning)
-
-
-def ingestao_DB():
-    ingest = True
-    nome_arquivo = 'dados/informacoes_cnpj_sem_cargos.csv'
-    df = pd.read_csv(nome_arquivo, sep='|')
-    LOGGER_OBJ = etlLogger(project_name='casa_dos_dados')
-
-    conn, cur = connect_db(LOGGER_OBJ)
-    df_dados_tratados = processa_dados(df)
-    if ingest == True:
-        ingest_data(df_dados_tratados, 'dev.flat_table', conn, cur, LOGGER_OBJ)
-        ingest = False
-    
-    else:
-        LOGGER_OBJ.info("Não há dados para ingestão")
-
-    cur.close()
-    conn.close()
-    
 
 
 if __name__ == "__main__":
@@ -59,14 +29,6 @@ if __name__ == "__main__":
                   "https://casadosdados.com.br/solucao/cnpj/grupo-mindbr-marketing-inteligencia-e-negocios-digitais-eireli-36224708000173"]
     print("iniciando processo de scrapy")
 
-
-    # crawler = CrawlerProcess()
-    # # crawler.crawl(ScrapyURLs)
-    # # print("Fim da primeira aranha")
-    # crawler.crawl(ScrapyInformations, start_urls=URL_TEST)
-    # crawler.start()
-    # print("fim da execução")
-    
     configure_logging()
     runner = CrawlerRunner()
 
@@ -78,15 +40,10 @@ if __name__ == "__main__":
     crawl()
     reactor.run()
 
-    # @defer.inlineCallbacks
-    # def crawl():
-    #     yield runner.crawl(ScrapyURLs)
-    #     yield runner.crawl(ScrapyInformations, start_urls=URL_PAGES)  # Passar a lista de URLs como argumento
-    #     reactor.stop()
+    file_path = 'dados/informacoes_cnpj_sem_cargos.csv'
+    bucket_arn = 'bucketdatabasecasadosdados'
+    timestamp = datetime.now().strftime("%Y%m%d")
+    file_name = f"{bucket_arn}/{timestamp}_informacoes_cnpj_sem_cargos.csv"
 
-    # crawl()
-    # reactor.run()
-
-
-
-    
+    # ingest_dataframe_to_s3(df_saida, bucket_arn, file_name)
+    ingest_csv_to_s3(file_path, bucket_arn, file_name)
