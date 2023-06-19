@@ -60,7 +60,7 @@ class ScrapyURLs(scrapy.Spider):
         range_query= {
         "data_abertura":{
                         "lte":None,
-                        "gte":'2023-06-06'},
+                        "gte":'2023-06-18'},
         }
 
         datas = []
@@ -147,7 +147,7 @@ class ScrapyInformations(scrapy.Spider):
             yield scrapy.Request(url=url, method="GET", headers = self.headers, callback=self.parse)
     
     def parse(self, response):
-        self.log(f"\n\nIniciando Parse")
+        self.log(f"\n\nBuscando dados da empresa: {response.url}\n\n")
         PAGES = '//*[@id="__layout"]/div/div[2]/section[1]/div/div/div[4]'
         PAGE_TEXT = ".//text()"
         PATH_TO_PAGES = response.xpath(PAGES)
@@ -263,13 +263,14 @@ class ScrapyInformations(scrapy.Spider):
     def export_database(self):
 
         output_file = "dados/informacoes_cnpj_sem_cargos.csv"
-        bucket_name = "bucketdatabasecasadosdados"
+        # bucket_name = "bucketdatabasecasadosdados"
         df = pd.DataFrame(columns=self.dict_infos.keys())
         df = df.append(self.final_dicts, ignore_index=True, sort=False)
         
         new_df = self.alterar_nomes_colunas(df)
         if os.path.exists(output_file):
             new_df.to_csv(output_file, mode="a", index=False, header=False, sep="|")
+
         else:
             new_df.to_csv(output_file, index=False, sep="|")
         self.final_dicts = []

@@ -2,6 +2,8 @@ import yaml
 from datetime import datetime, timedelta
 import re
 import pandas as pd
+import os
+
 
 def read_yaml(path):
     with open(path) as file:
@@ -54,6 +56,12 @@ def processa_dados(df):
     df_dados_tratados = converte_data(df_data_abertura, 'DataSituacaoCadastral')
 
     return df_dados_tratados
+
+def verificar_arquivo(nome_arquivo):
+    if os.path.isfile(nome_arquivo):
+        print(f"O arquivo '{nome_arquivo}' existe no diretório '{nome_arquivo}'.")
+    else:
+        print(f"O arquivo '{nome_arquivo}' não foi encontrado no diretório '{nome_arquivo}'.")
 
 if __name__ == "__main__":
     cred = read_yaml('config/db_access.yaml')
