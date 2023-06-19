@@ -3,9 +3,14 @@ services:
   casadosdados-site:
     build:
       context: .
+      args:
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
     image: casadosdados
     container_name: casa-dos-dados
     ports:
       - "8000:8000"
     volumes:
       - .:/app
+    env_file:
+      - .env

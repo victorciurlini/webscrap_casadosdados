@@ -27,7 +27,6 @@ if __name__ == "__main__":
                   "https://casadosdados.com.br/solucao/cnpj/axxiom-solucoes-tecnologicas-s-a--09182985000198",
                   "https://casadosdados.com.br/solucao/cnpj/conecta-consultoria-e-informatica-ltda-12161075000133",
                   "https://casadosdados.com.br/solucao/cnpj/grupo-mindbr-marketing-inteligencia-e-negocios-digitais-eireli-36224708000173"]
-    print("iniciando processo de scrapy")
 
     configure_logging()
     runner = CrawlerRunner()
@@ -45,5 +44,7 @@ if __name__ == "__main__":
     timestamp = datetime.now().strftime("%Y%m%d")
     file_name = f"{bucket_arn}/{timestamp}_informacoes_cnpj_sem_cargos.csv"
 
+    verificar_arquivo(file_path)
     # ingest_dataframe_to_s3(df_saida, bucket_arn, file_name)
+    
     ingest_csv_to_s3(file_path, bucket_arn, file_name)
