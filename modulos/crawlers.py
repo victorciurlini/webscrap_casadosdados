@@ -13,6 +13,8 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 URL_PAGES = []
+LISTA_DICT = []
+
 class ScrapyURLs(scrapy.Spider):
     name = "ScrapyURLs"
     # allowed_domains = ["casadosdados.com.br"]
@@ -60,7 +62,7 @@ class ScrapyURLs(scrapy.Spider):
         range_query= {
         "data_abertura":{
                         "lte":None,
-                        "gte":'2023-06-06'},
+                        "gte":'2023-06-18'},
         }
 
         datas = []
@@ -112,8 +114,9 @@ class ScrapyURLs(scrapy.Spider):
 
 class ScrapyInformations(scrapy.Spider):
     name = "ScrapyInformations"
-   
-    def __init__(self, *args, **kwargs):
+    
+
+    def __init__(self, final_dicts, *args, **kwargs):
         super(ScrapyInformations, self).__init__(*args, **kwargs)
         self.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52",
         "Content-Type":"text/html"}
@@ -137,17 +140,20 @@ class ScrapyInformations(scrapy.Spider):
                 "Telefone": "NaoConsta",
                 "E-MAIL": "NaoConsta",
                 "Quadro Societário": "NaoConsta"}
-        self.final_dicts = []
-
+        self.final_dicts = final_dicts
+    
     def start_requests(self):
         self.log(f"\n\nIniciando a aranha: {self.name}\n\n")
         # datas = []
         # requests = []
+
         for url in self.start_urls:
             yield scrapy.Request(url=url, method="GET", headers = self.headers, callback=self.parse)
+
     
     def parse(self, response):
-        self.log(f"\n\nIniciando Parse")
+        global LISTA_DICT
+        self.log(f"\n\nBuscando dados da empresa: {response.url}\n\n")
         PAGES = '//*[@id="__layout"]/div/div[2]/section[1]/div/div/div[4]'
         PAGE_TEXT = ".//text()"
         PATH_TO_PAGES = response.xpath(PAGES)
@@ -159,8 +165,10 @@ class ScrapyInformations(scrapy.Spider):
         partners_concatenate = self.concat_partners(telefone_concatenate)
         final_list = self.check_missing_data(partners_concatenate)
         final_dict = self.generate_info_dict(final_list)
-        self.final_dicts.append(final_dict)
-        self.export_database()
+        final_list = []
+        self.log(f"\n\nDicionário Final: {final_dict}\n\n")
+        self.final_dicts.append(final_dict.copy())
+        final_dict = self.dict_infos
 
     def remove_blank_elements(self, list_info):
         new_list = [x for x in list_info if x != ""]
@@ -234,53 +242,12 @@ class ScrapyInformations(scrapy.Spider):
 
         return self.dict_infos
 
-    def alterar_nomes_colunas(self, df):
-        column_mapping = {
-        'CNPJ': 'CNPJ',
-        'Razão Social': 'RazaoSocial',
-        'Nome Fantasia': 'NomeFantasia',
-        'Tipo': 'Tipo',
-        'Data Abertura': 'DataAbertura',
-        'Situação Cadastral': 'SituacaoCadastral',
-        'Data da Situação Cadastral': 'DataSituacaoCadastral',
-        'Capital Social': 'CapitalSocial',
-        'Natureza Jurídica': 'NaturezaJuridica',
-        'Empresa MEI': 'EmpresaMEI',
-        'Logradouro': 'Logradouro',
-        'Número': 'Numero',
-        'Complemento': 'Complemento',
-        'CEP': 'CEP',
-        'Bairro': 'Bairro',
-        'Município': 'Municipio',
-        'UF': 'UF',
-        'Telefone': 'Telefone',
-        'E-MAIL': 'EMAIL',
-        'Quadro Societário': 'QuadroSocietario'
-        }
-        new_df = df.rename(columns=column_mapping)
-        return new_df
-
-    def export_database(self):
-
-        output_file = "dados/informacoes_cnpj_sem_cargos.csv"
-        bucket_name = "bucketdatabasecasadosdados"
-        df = pd.DataFrame(columns=self.dict_infos.keys())
-        df = df.append(self.final_dicts, ignore_index=True, sort=False)
-        
-        new_df = self.alterar_nomes_colunas(df)
-        if os.path.exists(output_file):
-            new_df.to_csv(output_file, mode="a", index=False, header=False, sep="|")
-        else:
-            new_df.to_csv(output_file, index=False, sep="|")
-        self.final_dicts = []
-
-        # self.ingest_csv_to_s3(output_file,
-        #                       bucket_name,
-        #                       f'{bucket_name}/informacoes_cnpj_sem_cargos.csv')
 
 if __name__ == "__main__":
     URL_PAGES = []
-    URL_TEST = ["https://casadosdados.com.br/solucao/cnpj/luana-costa-gomes-47675542000128"]
+    URL_TEST = ["https://casadosdados.com.br/solucao/cnpj/luana-costa-gomes-47675542000128",
+                "https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
+                "https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120"]
     url_testes = ["https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
                   "https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120",
                   "https://casadosdados.com.br/solucao/cnpj/d-g-a-mitoso-31190635000122",

@@ -1,11 +1,16 @@
-version: "1"
+version: "2"
 services:
   casadosdados-site:
     build:
       context: .
-    image: casadosdados
+      args:
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
+    image: casadosdados:v1.0.2
     container_name: casa-dos-dados
     ports:
       - "8000:8000"
     volumes:
       - .:/app
+    env_file:
+      - .env
