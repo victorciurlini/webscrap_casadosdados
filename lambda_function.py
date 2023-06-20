@@ -6,15 +6,18 @@ from modulos.conecta_db import *
 from modulos.funcoes_aux import *
 from modulos.crawlers import *
 from modulos.ingestao_dados import *
-from modulos.crawlers import URL_PAGES
+from modulos.crawlers import URL_PAGES, LISTA_DICT
 
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+def lambda_handler(event, context):
+        # URL_PAGES = []
+    final_dicts = []
+    URL_TEST = ["https://casadosdados.com.br/solucao/cnpj/luana-costa-gomes-47675542000128",
+                "https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
+                "https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120"]
 
-if __name__ == "__main__":
-    # URL_PAGES = []
-    URL_TEST = ["https://casadosdados.com.br/solucao/cnpj/luana-costa-gomes-47675542000128"]
     url_testes = ["https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
                   "https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120",
                   "https://casadosdados.com.br/solucao/cnpj/d-g-a-mitoso-31190635000122",
@@ -27,7 +30,6 @@ if __name__ == "__main__":
                   "https://casadosdados.com.br/solucao/cnpj/axxiom-solucoes-tecnologicas-s-a--09182985000198",
                   "https://casadosdados.com.br/solucao/cnpj/conecta-consultoria-e-informatica-ltda-12161075000133",
                   "https://casadosdados.com.br/solucao/cnpj/grupo-mindbr-marketing-inteligencia-e-negocios-digitais-eireli-36224708000173"]
-    print("iniciando processo de scrapy")
 
     configure_logging()
     runner = CrawlerRunner()
@@ -35,15 +37,16 @@ if __name__ == "__main__":
     @defer.inlineCallbacks
     def crawl():
         yield runner.crawl(ScrapyURLs)
-        yield runner.crawl(ScrapyInformations, start_urls = URL_PAGES)
+        yield runner.crawl(ScrapyInformations, start_urls = URL_PAGES, final_dicts=final_dicts)
         reactor.stop()
     crawl()
     reactor.run()
-
-    file_path = 'dados/informacoes_cnpj_sem_cargos.csv'
     bucket_arn = 'bucketdatabasecasadosdados'
-    timestamp = datetime.now().strftime("%Y%m%d")
+    timestamp = datetime.now().strftime("%Y%m%d%H%M")
     file_name = f"{bucket_arn}/{timestamp}_informacoes_cnpj_sem_cargos.csv"
+    df = cria_df(final_dicts)
+    # df.to_csv('dados/informacoes_cnpj_sem_cargos.csv', index=False, sep='|', encoding='utf-8')
+    ingest_dataframe_to_s3(df, bucket_arn, file_name)
 
-    # ingest_dataframe_to_s3(df_saida, bucket_arn, file_name)
-    ingest_csv_to_s3(file_path, bucket_arn, file_name)
+if __name__ == "__main__":
+    lambda_handler('','')

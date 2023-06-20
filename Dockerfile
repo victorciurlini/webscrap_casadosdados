@@ -23,6 +23,12 @@ COPY modulos/ /app/modulos/
 COPY config/ /app/config/
 COPY lambda_function.py /app/
 
+# Altera as permissões do diretório de destino
+# RUN chmod 777 /app/dados/
+# Define o usuário padrão como root
+USER root
+
+
 # Define o comando padrão para executar a aplicação
-CMD ["/bin/bash"]
-# CMD [ "python", "lambda_function.py" ]
+# CMD ["/bin/bash"]
+CMD [ "python", "lambda_function.py" ]
