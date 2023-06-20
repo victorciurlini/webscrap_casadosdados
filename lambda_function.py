@@ -11,9 +11,8 @@ from modulos.crawlers import URL_PAGES, LISTA_DICT
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-
-if __name__ == "__main__":
-    # URL_PAGES = []
+def lambda_handler(event, context):
+        # URL_PAGES = []
     final_dicts = []
     URL_TEST = ["https://casadosdados.com.br/solucao/cnpj/luana-costa-gomes-47675542000128",
                 "https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
@@ -45,7 +44,9 @@ if __name__ == "__main__":
     bucket_arn = 'bucketdatabasecasadosdados'
     timestamp = datetime.now().strftime("%Y%m%d%H%M")
     file_name = f"{bucket_arn}/{timestamp}_informacoes_cnpj_sem_cargos.csv"
-    print(f"Dicionário final: {final_dicts}")
     df = cria_df(final_dicts)
     # df.to_csv('dados/informacoes_cnpj_sem_cargos.csv', index=False, sep='|', encoding='utf-8')
     ingest_dataframe_to_s3(df, bucket_arn, file_name)
+
+if __name__ == "__main__":
+    lambda_handler('','')

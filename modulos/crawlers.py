@@ -11,6 +11,7 @@ from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
+from datetime import datetime
 
 URL_PAGES = []
 LISTA_DICT = []
@@ -62,7 +63,7 @@ class ScrapyURLs(scrapy.Spider):
         range_query= {
         "data_abertura":{
                         "lte":None,
-                        "gte":'2023-06-18'},
+                        "gte":datetime.now().strftime('%Y-%m-%d')},
         }
 
         datas = []
