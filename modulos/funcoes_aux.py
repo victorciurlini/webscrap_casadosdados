@@ -57,11 +57,36 @@ def processa_dados(df):
 
     return df_dados_tratados
 
-def verificar_arquivo(nome_arquivo):
-    if os.path.isfile(nome_arquivo):
-        print(f"O arquivo '{nome_arquivo}' existe no diretório '{nome_arquivo}'.")
-    else:
-        print(f"O arquivo '{nome_arquivo}' não foi encontrado no diretório '{nome_arquivo}'.")
+def cria_df(lista_dict):
+    # transforma o dicionário em um dataframe, com separador | e utf-8
+    df = pd.DataFrame(lista_dict)
+    column_mapping = {
+    'CNPJ': 'CNPJ',
+    'Razão Social': 'RazaoSocial',
+    'Nome Fantasia': 'NomeFantasia',
+    'Tipo': 'Tipo',
+    'Data Abertura': 'DataAbertura',
+    'Situação Cadastral': 'SituacaoCadastral',
+    'Data da Situação Cadastral': 'DataSituacaoCadastral',
+    'Capital Social': 'CapitalSocial',
+    'Natureza Jurídica': 'NaturezaJuridica',
+    'Empresa MEI': 'EmpresaMEI',
+    'Logradouro': 'Logradouro',
+    'Número': 'Numero',
+    'Complemento': 'Complemento',
+    'CEP': 'CEP',
+    'Bairro': 'Bairro',
+    'Município': 'Municipio',
+    'UF': 'UF',
+    'Telefone': 'Telefone',
+    'E-MAIL': 'EMAIL',
+    'Quadro Societário': 'QuadroSocietario'
+    }
+    df.rename(columns=column_mapping, inplace=True)
+    df_tratado = processa_dados(df)
+
+    return df_tratado
+
 
 if __name__ == "__main__":
     cred = read_yaml('config/db_access.yaml')

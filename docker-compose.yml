@@ -1,4 +1,4 @@
-version: "1"
+version: "2"
 services:
   casadosdados-site:
     build:
@@ -6,7 +6,7 @@ services:
       args:
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
-    image: casadosdados
+    image: casadosdados:v1.0.2
     container_name: casa-dos-dados
     ports:
       - "8000:8000"

@@ -20,16 +20,16 @@ def ingest_csv_to_s3(file_path, bucket_name, s3_key):
         print(f"Falha ao realizar a ingestão do arquivo: {e}")
 
 def ingest_dataframe_to_s3(dataframe, bucket_name, s3_key):
-    # Converte o DataFrame em uma string no formato CSV
-    csv_data = dataframe.to_csv(index=False)
+    # Converte o DataFrame em uma string no formato CSV com separador "|" e codificação UTF-8
+    csv_data = dataframe.to_csv(index=False, sep='|', encoding='utf-8')
     
     # Cria uma instância do cliente S3
     s3_client = boto3.client('s3')
-    
+
     try:
         # Faz o upload do CSV para o bucket S3
         response = s3_client.put_object(Body=csv_data, Bucket=bucket_name, Key=s3_key)
-        print("Arquivo CSV ingerido com sucesso no bucket S3!")
+        print(f"Arquivo CSV ingerido com sucesso no bucket S3: {response}")
     except Exception as e:
         print("Falha ao realizar a ingestão do arquivo CSV:", e)
 

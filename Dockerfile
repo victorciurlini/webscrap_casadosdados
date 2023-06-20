@@ -1,12 +1,6 @@
 # Imagem base com o Python 3.10.4
 FROM python:3.10.4
 
-# Define as variáveis de ambiente
-# ARG AWS_ACCESS_KEY_ID
-# ARG AWS_SECRET_ACCESS_KEY
-# ENV AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-# ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-
 # Define o diretório de trabalho
 WORKDIR /app
 
@@ -29,6 +23,12 @@ COPY modulos/ /app/modulos/
 COPY config/ /app/config/
 COPY lambda_function.py /app/
 
+# Altera as permissões do diretório de destino
+# RUN chmod 777 /app/dados/
+# Define o usuário padrão como root
+USER root
+
+
 # Define o comando padrão para executar a aplicação
-CMD ["/bin/bash"]
-# CMD [ "python", "lambda_function.py" ]
+# CMD ["/bin/bash"]
+CMD [ "python", "lambda_function.py" ]
