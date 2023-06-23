@@ -63,7 +63,8 @@ class ScrapyURLs(scrapy.Spider):
         range_query= {
         "data_abertura":{
                         "lte":None,
-                        "gte":datetime.now().strftime('%Y-%m-%d')},
+                        # "gte":datetime.now().strftime('%Y-%m-%d')},
+                        "gte":"2023-06-05"},
         }
 
         datas = []

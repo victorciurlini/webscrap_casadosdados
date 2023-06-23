@@ -1,0 +1,15 @@
+services:
+  casadosdados-site:
+    build:
+      context: .
+      args:
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
+    image: ingestaocasadosdados:v0.0.5
+    container_name: ingestao-casa-dos-dados
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
