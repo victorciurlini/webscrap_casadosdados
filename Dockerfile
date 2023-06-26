@@ -18,7 +18,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia os arquivos e pastas para dentro da imagem
 COPY dados/ /app/dados/
-COPY logger/ /app/logger/
 COPY modulos/ /app/modulos/
 COPY config/ /app/config/
 COPY lambda_function.py /app/
