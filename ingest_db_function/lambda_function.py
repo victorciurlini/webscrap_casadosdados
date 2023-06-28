@@ -1,6 +1,7 @@
 import boto3
 import csv
 import os
+import pymysql
 
 def read_csv_from_s3(s3_bucket, s3_key):
     s3_client = boto3.client('s3')
@@ -98,3 +99,6 @@ def lambda_handler(event, context):
     'statusCode': 200,
     'body': f'Pipeline executada com sucesso'
 }
+
+if __name__ == "__main__":
+    lambda_handler(None, None)
