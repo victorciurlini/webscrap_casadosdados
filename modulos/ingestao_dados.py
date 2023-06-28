@@ -1,7 +1,10 @@
 import boto3
 import pandas as pd
+# import mariadb
 from datetime import datetime
-
+import sys
+import logging
+from modulos.funcoes_aux import *
 
 def ingest_csv_to_s3(file_path, bucket_name, s3_key):
     # Carrega o arquivo CSV em um DataFrame do pandas
@@ -33,10 +36,38 @@ def ingest_dataframe_to_s3(dataframe, bucket_name, s3_key):
     except Exception as e:
         print("Falha ao realizar a ingestão do arquivo CSV:", e)
 
-if __name__ == '__main__':
-    file_path = 'dados/informacoes_cnpj_sem_cargos.csv'
-    bucket_arn = 'bucketdatabasecasadosdados'
-    timestamp = datetime.now().strftime("%Y%m%d")
-    file_name = f"{timestamp}_informacoes_cnpj_sem_cargos.csv"
+def list_files_local(path):
+    files = []
+    for r, d, f in os.walk(path):
+        for file in f:
+            if '.csv' in file:
+                files.append(os.path.join(r, file))
 
-    ingest_csv_to_s3(file_path, bucket_arn, file_name)
+    return files
+
+if __name__ == '__main__':
+    # file_path = 'dados/informacoes_cnpj_sem_cargos.csv'
+    # bucket_arn = 'bucketdatabasecasadosdados'
+    # timestamp = datetime.now().strftime("%Y%m%d")
+    # file_name = f"{timestamp}_informacoes_cnpj_sem_cargos.csv"
+
+    # ingest_csv_to_s3(file_path, bucket_arn, file_name)
+    path_db_access = '../config/db_access.yaml'
+    print("Iniciando conexão ao banco de dados")
+    logging.info("Iniciando conexão ao banco de dados")
+    conn, cur = connect_db(path_db_access)
+    logging.info("Conexão estabelecida")
+    list_of_files = list_files_local('../dados')
+
+    if len(list_of_files) > 0:
+        logging.info("Iniciando ingestão de dados")
+        for file in list_of_files:
+            try:
+                df = pd.read_csv(file, sep='|', encoding='utf-8')
+                logging.info(f"Leitura de dados do arquivo {file} realizada com sucesso")
+
+            except Exception as e:
+                logging.error(f"Falha ao realizar a leitura do arquivo {file}: {e}")
+    else:
+        logging.error("Nenhum arquivo encontrado")
+
