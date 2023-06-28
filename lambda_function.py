@@ -2,7 +2,6 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
 
-from modulos.conecta_db import *
 from modulos.funcoes_aux import *
 from modulos.crawlers import *
 from modulos.ingestao_dados import *
@@ -41,9 +40,9 @@ def lambda_handler(event, context):
         reactor.stop()
     crawl()
     reactor.run()
-    bucket_arn = 'bucketdatabasecasadosdados'
+    bucket_arn = 'casadosdadostemp'
     timestamp = datetime.now().strftime("%Y%m%d%H%M")
-    file_name = f"{bucket_arn}/{timestamp}_informacoes_cnpj_sem_cargos.csv"
+    file_name = f"{timestamp}_informacoes_cnpj_sem_cargos.csv"
     df = cria_df(final_dicts)
     # df.to_csv('dados/informacoes_cnpj_sem_cargos.csv', index=False, sep='|', encoding='utf-8')
     ingest_dataframe_to_s3(df, bucket_arn, file_name)

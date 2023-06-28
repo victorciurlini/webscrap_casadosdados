@@ -10,8 +10,9 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
 import warnings
+
 warnings.filterwarnings("ignore", category=FutureWarning)
-from datetime import datetime
+from datetime import datetime, timedelta
 
 URL_PAGES = []
 LISTA_DICT = []
@@ -48,7 +49,13 @@ class ScrapyURLs(scrapy.Spider):
             requests.append(scrapy.FormRequest(url=self.url, method="POST",headers = self.HEADERS, body=json.dumps(data), callback=self.parse))
         return requests
 
+    def two_days_ago(self):
+        two_days_ago = datetime.now() - timedelta(days=2)
+
+        return two_days_ago.strftime('%Y-%m-%d')
+
     def create_list_data(self):
+        delta_time = self.two_days_ago()
         query = {
             "termo":[],
             'atividade_principal':['6204000'],
@@ -63,7 +70,8 @@ class ScrapyURLs(scrapy.Spider):
         range_query= {
         "data_abertura":{
                         "lte":None,
-                        "gte":datetime.now().strftime('%Y-%m-%d')},
+                        # "gte":datetime.now().strftime('%Y-%m-%d')},
+                        "gte": delta_time},
         }
 
         datas = []
