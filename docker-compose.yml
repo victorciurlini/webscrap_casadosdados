@@ -6,7 +6,7 @@ services:
       args:
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
-    image: casadosdados:v1.0.5
+    image: casadosdados:v1.0.6
     container_name: casa-dos-dados
     ports:
       - "8000:8000"
