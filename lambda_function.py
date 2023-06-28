@@ -2,7 +2,6 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
 
-from modulos.conecta_db import *
 from modulos.funcoes_aux import *
 from modulos.crawlers import *
 from modulos.ingestao_dados import *

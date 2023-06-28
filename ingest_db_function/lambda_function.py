@@ -1,6 +1,5 @@
 import boto3
 import csv
-import pymysql
 import os
 
 def read_csv_from_s3(s3_bucket, s3_key):
@@ -68,12 +67,12 @@ def lambda_handler(event, context):
                 ingest_data(header, data, 'flat_table', conn)
     
             except Exception as e:
-                # Tratamento de erros (opcional)
+                conn.rollback()
                 return {
                     'statusCode': 401,
                     'body': f'lista de arquivos: {bucket_list}'
                 }
-                conn.rollback()
+                
     
             try:
                 print(f"Movendo os arquivos para o bucket {destination_bucket}")
