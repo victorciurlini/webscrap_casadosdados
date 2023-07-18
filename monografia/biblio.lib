@@ -1,0 +1,288 @@
+@article{Koetter2004,
+    author = {Koetter, R. and Singer, A. C. and Tuchler, M.},
+    doi = {10.1109/MSP.2004.1267050},
+    file = {:C$\backslash$:/Users/user/Documents/References/Koetter, Singer, Tuchler - 2004.pdf:pdf},
+    isbn = {1053-5888},
+    issn = {1053-5888},
+    journal = {IEEE Signal Processing Magazine},
+    mendeley-groups = {equalization},
+    number = {1},
+    pages = {67--80},
+    title = {{Turbo Equalization}},
+    volume = {21},
+    month = {February},
+    year = {2004}
+}
+
+@article{russom2011big,
+  title={Big data analytics},
+  author={Russom, Philip},
+  journal={TDWI best practices report, fourth quarter},
+  volume={19},
+  number={4},
+  pages={1--34},
+  year={2011},
+}
+
+
+@article{vassiliadis2002conceptual,
+  title={A survey of extract-transform-load technology},
+  author={Vassiliadis, Panos and Simitsis, Alkis and Skiadopoulos, Spiros},
+  journal={International Journal of Data Warehousing and Mining (IJDWM)},
+  volume={5},
+  number={3},
+  pages={1--27},
+  year={2009},
+}
+
+@article{mell2011nist,
+  title={The NIST definition of cloud computing},
+  author={Mell, Peter and Grance, Timothy},
+  journal={National Institute of Standards}
+}
+
+@article{gupta2013adoption,
+  title={Adoption of ICT in a government organization in a developing country: An empirical study},
+  author={Gupta, B., Dasgupta, S., Gupta, S.},
+  journal={The Journal of Strategic Information Systems},
+  volume={22},
+  number={2},
+  pages={140--154},
+  year={2013},
+}
+
+@article{sivarajah2017bigdata,
+  title={Critical analysis of Big Data challenges and analytical methods},
+  author={Sivarajah, U., Kamal, M. M., Irani, Z., Weerakkody, V.},
+  journal={Journal of Business Research},
+  volume={70},
+  pages={263--286},
+  year={2017},
+}
+
+@article{rahm2000datacleaning,
+  title={Data cleaning: Problems and current approaches},
+  author={Rahm, E., Do, H. H.},
+  journal={IEEE Data Engineering Bulletin},
+  volume={23},
+  number={4},
+  pages={3--13},
+  year={2000},
+}
+
+@article{vassiliadis2009etl,
+  title={A survey of Extract–Transform–Load technology},
+  author={Vassiliadis, P.},
+  journal={International Journal of Data Warehousing and Mining (IJDWM)},
+  volume={5},
+  number={3},
+  pages={1--27},
+  year={2009},
+}
+
+@article{chen2012bigimpact,
+  title={Business Intelligence and Analytics: From Big Data to Big Impact},
+  author={Chen, H., Chiang, R. H., Storey, V. C.},
+  journal={MIS Quarterly},
+  volume={36},
+  number={4},
+  pages={1165--1188},
+  year={2012},
+}
+
+@book{kelleher2015ml,
+  title={Fundamentals of machine learning for predictive data analytics: algorithms, worked examples, and case studies},
+  author={Kelleher, J. D., Mac Namee, B., D'Arcy, A.},
+  publisher={MIT press},
+  year={2015},
+}
+
+@inbook{hayashi1998datascience,
+  title={What is Data Science? Fundamental Concepts and a Heuristic Example},
+  author={Hayashi, C.},
+  booktitle={Data Science, Classification, and Related Methods},
+  pages={40--51},
+  year={1998},
+}
+
+@article{fitzgerald2017continuous,
+  title={Continuous software engineering: A roadmap and agenda},
+  author={Fitzgerald, B., Stol, K. J.},
+  journal={Journal of Systems and Software},
+  volume={123},
+  pages={176--189},
+  year={2017},
+}
+
+@inproceedings{smeds2015devops,
+  title={DevOps: A Definition and Perceived Adoption Impediments},
+  author={Smeds, J., Nybom, K., Porres, I.},
+  booktitle={Proceedings of the 2015 International Conference on Agile Software Development: New Foundations, New Frontiers},
+  pages={166--177},
+  year={2015},
+}
+
+@article{cavalcanti2019cloud,
+  title={Cloud Computing Adoption: A Study about the Factors that Influence Brazilian Companies},
+  author={Cavalcanti, Eliana G. and Gomes, Eduardo S. and Figueiredo, Sâmara R.},
+  journal={Journal of Information Systems Engineering \& Management},
+  volume={4},
+  number={2},
+  year={2019},
+  publisher={Universidade Federal de Pernambuco, Brasil}
+}
+
+@phdthesis{silva2017bigdata,
+  title={Big Data Analytics in Support of Decision Making Process},
+  author={Silva, Andre LB},
+  year={2017},
+  school={Universidade Federal de Santa Catarina, Brasil}
+}
+
+@article{morimoto2016datascience,
+  title={Data Science in Data Mining},
+  author={Morimoto, Maurício},
+  journal={Revista Brasileira de Computação Aplicada},
+  volume={8},
+  number={1},
+  pages={92--102},
+  year={2016},
+  publisher={Universidade Federal de Lavras, Brasil}
+}
+
+@article{soares2015etl,
+  title={A Review of ETL: Techniques, Challenges and Comparative Study of ETL Tools},
+  author={Soares, Eduardo},
+  journal={Journal of Software Engineering and Applications},
+  volume={8},
+  pages={ 211--224},
+  year={2015},
+  publisher={Universidade Federal do Rio Grande do Sul, Brasil}
+}
+
+@article{rocha2018devops,
+  title={Understanding the Impacts of DevOps on Organizational Learning: A Case Study},
+  author={Rocha, Allan and others},
+  journal={Journal of Universal Computer Science},
+  volume={24},
+  number={8},
+  pages={1072--1089},
+  year={2018},
+  publisher={Universidade Federal do Rio de Janeiro, Brasil}
+}
+
+@phdthesis{pinto2018ml,
+  title={Machine Learning for Predictive Modelling: a Technological Forecasting Approach},
+  author={Pinto, Marcos Vinicius},
+  year={2018},
+  school={Universidade Federal de Minas Gerais, Brasil}
+}
+
+@inproceedings{simitsis2005optimizing,
+  title={Optimizing ETL processes in data warehouses},
+  author={Simitsis, Alkis and Vassiliadis, Panos and Sellis, Timos},
+  booktitle={Proceedings. 21st International Conference on Data Engineering},
+  pages={564--575},
+  year={2005},
+  organization={IEEE}
+}
+
+@article{ong2017dynamic,
+  title={Dynamic-ETL: a hybrid approach for health data extraction, transformation and loading},
+  author={Ong, Toan C and Kahn, Michael G and Kwan, Bethany M and Brandt, Elias and Hosokawa, Patrick and Uhrich, Christopher and Schilling, Lisa M and Del Fiol, Guilherme and Zeng, Qing and Waitman, Lemuel R and others},
+  journal={BMC medical informatics and decision making},
+  volume={17},
+  number={1},
+  pages={1--14},
+  year={2017},
+  publisher={BioMed Central}
+}
+
+@article{armbrust2010view,
+  title={A view of cloud computing},
+  author={Armbrust, Michael and Fox, Armando and Griffith, Rean and Joseph, Anthony D and Katz, Randy and Konwinski, Andy and Lee, Gunho and Patterson, David and Rabkin, Ariel and Stoica, Ion and others},
+  journal={Communications of the ACM},
+  volume={53},
+  number={4},
+  pages={50--58},
+  year={2010},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{tabrizchi2020survey,
+  title={A survey on security challenges in cloud computing: issues, threats, and solutions},
+  author={Tabrizchi, Hamed and Kuchaki Rafsanjani, Marzieh},
+  journal={The Journal of Supercomputing},
+  volume={76},
+  number={9},
+  pages={6664--6714},
+  year={2020},
+  publisher={Springer}
+}
+
+@article{aldossary2016data,
+  title={Data security, privacy, availability and integrity in cloud computing: issues and current solutions},
+  author={Aldossary, Suhail and Allen, William},
+  journal={International Journal of Advanced Computer Science and Applications},
+  volume={7},
+  number={4},
+  pages={485--498},
+  year={2016},
+  publisher={The Science and Information (SAI) Organization}
+}
+
+@article{jayalekshmi2015study,
+  title={A study of data storage security issues in cloud computing},
+  author={Jayalekshmi, MB and Krishnaveni, S},
+  journal={Indian Journal of Science and Technology},
+  volume={8},
+  number={24},
+  pages={1--6},
+  year={2015},
+  publisher={Indian Society for Education and Environment}
+}
+
+@article{teing2017greening,
+  title={Greening cloud-enabled big data storage forensics: Syncany as a case study},
+  author={Teing, Yee-Yang and Dehghantanha, Ali and Choo, Kim-Kwang Raymond and Dargahi, Tooska},
+  journal={IEEE Transactions on Sustainable Computing},
+  volume={3},
+  number={2},
+  pages={65--78},
+  year={2017},
+  publisher={IEEE}
+}
+
+@book{mayer2013big,
+  title={Big Data: A revolution that will transform how we live, work, and think},
+  author={Mayer-Schönberger, Viktor and Cukier, Kenneth},
+  year={2013},
+  publisher={Houghton Mifflin Harcourt}
+}
+
+@article{reddy2013data,
+  title={Data analytics: From Big Data to big impact},
+  author={Reddy, Chakravarthy K},
+  journal={International Journal of Information Management},
+  volume={33},
+  number={5},
+  pages={761--764},
+  year={2013}
+}
+
+@article{watson2010current,
+  title={The current state of business intelligence},
+  author={Watson, Hugh J and Wixom, Barbara H},
+  journal={Computer},
+  volume={43},
+  number={9},
+  pages={29--34},
+  year={2010}
+}
+
+@book{white2012hadoop,
+  title={Hadoop: The definitive guide},
+  author={White, Tom},
+  year={2012},
+  publisher={O'Reilly Media, Inc.}
+}
