@@ -1,7 +1,5 @@
 @article{Koetter2004,
     author = {Koetter, R. and Singer, A. C. and Tuchler, M.},
-    doi = {10.1109/MSP.2004.1267050},
-    file = {:C$\backslash$:/Users/user/Documents/References/Koetter, Singer, Tuchler - 2004.pdf:pdf},
     isbn = {1053-5888},
     issn = {1053-5888},
     journal = {IEEE Signal Processing Magazine},
@@ -285,4 +283,88 @@
   author={White, Tom},
   year={2012},
   publisher={O'Reilly Media, Inc.}
+}
+
+@misc{selenium,
+  author = {Selenium with Python},
+  title = {Selenium with Python},
+  year = {2023},
+  url = {https://selenium-python.readthedocs.io/},
+  note = {Acessado em: 18 de Julho de 2023}
+}
+
+@misc{scrapy,
+  author = {Scrapy with Python},
+  title = {SelScrapyenium with Python},
+  year = {2023},
+  url = {https://selenium-python.readthedocs.io/},
+  note = {Acessado em: 18 de Julho de 2023}
+}
+
+@misc{Lambda,
+  author = {Lambda},
+  title = {Lambda},
+  year = {2023},
+  url = {https://docs.aws.amazon.com/lambda/latest/dg/welcome.html},
+  note = {Acessado em: 18 de Julho de 2023}
+}
+
+@misc{scrapy,
+  author = {MySQL},
+  title = {MySQL},
+  year = {2023},
+  url = {https://dev.mysql.com/doc/refman/8.0/en/},
+  note = {Acessado em: 18 de Julho de 2023}
+}
+
+@ article{Golfarelli2003,
+author = {Golfarelli, Matteo and Rizzi, Stefano and Cella, Ilaria},
+journal = {Proceedings of the ACM SIGMOD International Conference on Management of Data},
+month = {jun},
+number = {2},
+pages = {1--8},
+year = {2003}
+}
+
+@article{Elmasri2019,
+author = {Elmasri, Ramez and Navathe, Shamkant B.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+
+@article{Date2003,
+author = {Date, C. J.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+@article{connolly2014,
+author = {Connolly, T. M. and Begg, C. E.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+@article{Silberschatz2019,
+author = {Silberschatz, A. and Korth, H. F. and Sudarshan, S.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+@article{reddy2013,
+author = {Reddy, C. K.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+@article{Ramakrishnan2003,
+author = {Ramakrishnan, R. and Gehrke, J.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
 }
