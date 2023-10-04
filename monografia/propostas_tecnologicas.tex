@@ -66,30 +66,36 @@ Após a modelagem dos dados, seguindo as formas normais de banco de dados, é pr
 
 Para a construção do banco de dados, é necessário primeiramente realizar a modelagem do banco de dados. A modelagem de dados é o processo de criação de um modelo de dados para armazenamento de dados em um banco de dados. Esse modelo de dados é usado para definir a estrutura lógica de um banco de dados e, em termos de banco de dados relacional, determina como os dados podem ser organizados em entidades e relacionamentos. Esse processo permite a construção de um banco de dados sólido e performático, atendendo a necessidade de negócios da empresa \cite{Golfarelli2003}.
 
-O primeiro passo desse processo consiste em realizar o levantamento das informações que o banco de dados deve conter. Esse mapeamento é realizado junto aos times responsáveis e levando em consideração os arquivos gerados. Foi identificado que os arquivos gerados possuem as seguintes informações:
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+CNPJ & Número de identificação do CNPJ; \\ \hline
+RazaoSocial & Razão social da empresa; \\ \hline
+NomeFantasia & Nome fantasia da empresa; \\ \hline
+Tipo & Tipo de empresa; \\ \hline
+DataAbertura & Data de abertura do CNPJ; \\ \hline
+SituacaoCadastral & Situação cadastral do CNPJ; \\ \hline
+DataSituacaoCadastral & Data da situação cadastral; \\ \hline
+CapitalSocial & Capital social da empresa; \\ \hline
+NaturezaJuridica & Natureza jurídica da empresa; \\ \hline
+EmpresaMEI & Indica se a empresa é MEI; \\ \hline
+Logradouro & Logradouro da empresa; \\ \hline
+Numero & Número do endereço; \\ \hline
+Complemento & Complemento do endereço; \\ \hline
+CEP & CEP do endereço; \\ \hline
+Bairro & Bairro do endereço; \\ \hline
+Municipio & Município do endereço; \\ \hline
+UF & Estado do endereço; \\ \hline
+Telefone & Telefone de contato da empresa; \\ \hline
+EMAIL & E-mail de contato da empresa; \\ \hline
+QuadroSocietario & informações dos sócios da empresa. \\ \hline
+\end{tabular}
+\caption{Descrição dos dados}
+\label{tab:descricao_dados}
+\end{table}
 
-\begin{itemize}
-    \item CNPJ: Número de identificação do CNPJ;
-    \item RazaoSocial: Razão social da empresa;
-    \item NomeFantasia: Nome fantasia da empresa;
-    \item Tipo: Tipo de empresa;
-    \item DataAbertura: Data de abertura do CNPJ;
-    \item SituacaoCadastral: Situação cadastral do CNPJ;
-    \item DataSituacaoCadastral: Data da situação cadastral;
-    \item CapitalSocial: Capital social da empresa;
-    \item NaturezaJuridica: Natureza jurídica da empresa;
-    \item EmpresaMEI: Indica se a empresa é MEI;
-    \item Logradouro: Logradouro da empresa;
-    \item Numero: Número do endereço;
-    \item Complemento: Complemento do endereço;
-    \item CEP: CEP do endereço;
-    \item Bairro: Bairro do endereço;
-    \item Municipio: Município do endereço;
-    \item UF: Estado do endereço;
-    \item Telefone: Telefone de contato da empresa;
-    \item EMAIL: E-mail de contato da empresa;
-    \item QuadroSocietario informações dos sócios da empresa.
-\end{itemize}
+O primeiro passo desse processo consiste em realizar o levantamento das informações que o banco de dados deve conter. Esse mapeamento é realizado junto aos times responsáveis e levando em consideração os arquivos gerados. Foi identificado que os arquivos gerados possuem as informações apresentadas na tabela \ref{tab:descricao_dados}
 
 Com as informações levantadas, é possível realizar a modelagem do banco de dados. Para isso, foi escolhido o modelo relacional, que é um modelo de dados que descreve como os dados podem ser armazenados, organizados e manipulados em um banco de dados relacional \cite{ramakrishnan2003database}. O modelo relacional é composto por um conjunto de tabelas, onde cada tabela representa uma entidade e cada linha representa uma instância dessa entidade. As colunas da tabela representam os atributos da entidade, e as linhas representam os valores desses atributos. A figura \ref{fig:diagrama_er} apresenta o diagrama ER do banco de dados proposto.
 
@@ -116,3 +122,33 @@ Levando todas essas definições em consideração, a arquitetura proposta para 
     \caption{Arquitetura proposta para a solução}
     \label{fig:arquitetura_aws}
 \end{figure}
+
+
+\subsection{implementação da solução}
+
+Com a arquitetura definida, é possível realizar o desenvolvimento passo a passo da solução. O primeiro passo é a criação de um repositório no git para o versionamento do código. Para esse projeto, foi escolhido a plataforma Github, pela familiaridade e praticidade de uso. O git permite um desenvolvimento seguro, pois é possível realizar o versionamento e teste de novas características nos algoritmos sem comprometer o código como um todo, sendo possível realizar o rollback caso necessário. Além disso, o git permite a criação de branches, que são ramificações do código principal, permitindo mais clareza no desenvolvimento e aplicando a metodologia de gitflow.
+
+Criado o repositório, foi possível iniciar o desenvolvimento dos algoritmos que serão utilizados na solução.
+Para o desenvolvimento dos algoritmos em python, foi gerado um ambiente virtual do Python, permitindo que as bibliotecas que foram usadas no projeto estejam apenas dentro do projeto, sem inteferir nas bibliotecas e versões de outros projetos e do python base da máquina local. Essa é uma boa prática de desenvolvimento quando se tem mais de um projeto em python, pois permite que cada projeto tenha suas próprias dependências e versões.
+
+Para o desenvolvimento e teste de funções, métodos e classe, existe um framework chamado Jupyter Lab. Esse framework permite a criação de notebooks, que são arquivos que permitem a execução de código em blocos, permitindo a execução de testes e validação de entradas e saídas das funções desenvolvidas. Para utilizar esse framework, é necessário instalá-lo no ambiente virtual python que será usado utilizando o gerenciador de bibliotecas pip.
+
+\subsubsection{Extração dos dados}
+
+Como mencionado anteriormente, a extração dos dados será realizada utilizando a biblioteca Scrapy. utilizando o gerenciador de bibliotecas pip, foi feita a instalação no ambiente virtual. feito isso, é necessário realizar uma análise exploratória do site que se deseja extrair as informações.
+
+O site escolhido foi a casa dos dados, pois ele apresenta uma estrutura simples e com poucas informações, o que facilita a extração dos dados. O primeiro passo é identificar qual é a estrutura do site, ou seja, como as informações estão organizadas. Para isso, é utilizado o inspecionar elemento do navegador, que permite a visualização do código fonte do site, bem como o console de rede de comunicação para identificar o tráfico dos protocolos utilizados na comunicação cliente-servidor. Essa análise nos permitirá identificar os elementos e os dicionários de envio e resposta de cada requisição.
+
+O primeiro site que a nossa solução irá interagir será:
+https://casadosdados.com.br/solucao/cnpj/pesquisa-avancada
+Esse endpoint permite realizar a busca de CNPJs usando filtros. Para o entedimento de como funciona a comunicação entre o cliente e o servidor, foi realizado uma busca simples, adicionando um filtro de atividade empresarial e de data de abertura. Dessa forma, podemos ver de que forma o site interpreta essas informações e como ele retorna os dados. A figura \ref{fig:inspecao_pagina} apresenta o inspecionar elemento do navegador, onde é possível ver o código fonte do site e o console de rede de comunicação.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{modelo_latex/figs/inspecao_pagina.png}
+    \caption{Inspecionar elemento do navegador}
+    \label{fig:inspecao_pagina}
+
+\end{figure}
+
+Ao analisar o tráfego de requisições, foi possível identificar que o site realiza uma requisição POST para o endpoint https://casadosdados.com.br/api/cnpj/search, enviando um dicionário com os filtros de busca. A figura \ref{fig:requisicao} apresenta a requisição realizada pelo site.

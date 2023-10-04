@@ -368,3 +368,20 @@ journal = {ACM Computing Surveys},
 month = {mar},
 year = {2019}
 }
+
+@article{elmasri2019fundamentals,
+  title={Fundamentals of database systems},
+  author={Elmasri, R. and Navathe, S. B.},
+  journal={Pearson},
+  year={2019}
+}
+
+
+
+\item Elmasri, R., & Navathe, S. B. (2019). Fundamentals of database systems. Pearson.
+\item Date, C. J. (2003). An introduction to database systems. Addison-Wesley.
+\item Connolly, T. M., & Begg, C. E. (2014). Database systems: A practical approach to design, implementation, and management. Pearson.
+\item Silberschatz, A., Korth, H. F., & Sudarshan, S. (2019). Database system concepts. McGraw-Hill Education.
+\item Reddy, C. K. (2013). Data analytics: From Big Data to big impact. International Journal of Information Management, 33(5), 761-764.
+\item Golfarelli, M., Rizzi, S., & Cella, I. (2003). Beyond data warehousing: What's next in business intelligence? In Proceedings of the 7th ACM international workshop on Data warehousing and OLAP (pp. 1-8).
+\item Ramakrishnan, R., & Gehrke, J. (2003). Database management systems. McGraw-Hill Education.
