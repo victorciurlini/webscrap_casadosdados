@@ -240,6 +240,6 @@ Para este capítilo, será abordada como foi desenvolvida
 
 
 ## Para fazer:
-- Construção do banco de dados, explicar como foi construído as entidades e como elas se relacionam
 - Mapeamento de custos: ver no billing do AWS qual é o custo esperado para a aplicação
 - Construir os SAM cli para realizar o deploy da aplicação e monitorar o custo
+- rever o embasamento teórico
