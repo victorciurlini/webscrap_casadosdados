@@ -10,8 +10,9 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor, defer
 import warnings
+
 warnings.filterwarnings("ignore", category=FutureWarning)
-from datetime import datetime
+from datetime import datetime, timedelta
 
 URL_PAGES = []
 LISTA_DICT = []
@@ -48,7 +49,13 @@ class ScrapyURLs(scrapy.Spider):
             requests.append(scrapy.FormRequest(url=self.url, method="POST",headers = self.HEADERS, body=json.dumps(data), callback=self.parse))
         return requests
 
+    def two_days_ago(self):
+        two_days_ago = datetime.now() - timedelta(days=2)
+
+        return two_days_ago.strftime('%Y-%m-%d')
+
     def create_list_data(self):
+        delta_time = self.two_days_ago()
         query = {
             "termo":[],
             'atividade_principal':['6204000'],
@@ -63,7 +70,8 @@ class ScrapyURLs(scrapy.Spider):
         range_query= {
         "data_abertura":{
                         "lte":None,
-                        "gte":datetime.now().strftime('%Y-%m-%d')},
+                        # "gte":datetime.now().strftime('%Y-%m-%d')},
+                        "gte": delta_time},
         }
 
         datas = []
@@ -96,9 +104,12 @@ class ScrapyURLs(scrapy.Spider):
         cnpjs = []
         names = []
         for cadastro in list_cadastros:
-            cnpjs.append(cadastro["cnpj"])
-            names.append(cadastro["razao_social"])
-
+            try:
+                cnpjs.append(cadastro["cnpj"])
+                names.append(cadastro["razao_social"])
+            except Exception as e:
+                self.log(f"Erro ao ler os CNPJs:\nmydata: {mydata}\nErro: {e}\n")
+                pass
         return cnpjs, names
     
     def name_processing(self, names):
@@ -151,17 +162,16 @@ class ScrapyInformations(scrapy.Spider):
         for url in self.start_urls:
             yield scrapy.Request(url=url, method="GET", headers = self.headers, callback=self.parse)
 
-    
     def parse(self, response):
         global LISTA_DICT
         self.log(f"\n\nBuscando dados da empresa: {response.url}\n\n")
-        PAGES = '//*[@id="__layout"]/div/div[2]/section[1]/div/div/div[4]'
+        PAGES = '//*[@id="__nuxt"]/div/div[2]/section[1]/div/div/div[4]/div[1]'
         PAGE_TEXT = ".//text()"
         PATH_TO_PAGES = response.xpath(PAGES)
+        
         TEXT_FROM_PAGES = []
         [TEXT_FROM_PAGES.append(pages.extract().replace("\n", "").strip()) for pages in PATH_TO_PAGES.xpath(PAGE_TEXT)]
         new_list = self.remove_blank_elements(TEXT_FROM_PAGES)
-        
         telefone_concatenate = self.concat_telefones(new_list)
         partners_concatenate = self.concat_partners(telefone_concatenate)
         final_list = self.check_missing_data(partners_concatenate)
@@ -245,10 +255,12 @@ class ScrapyInformations(scrapy.Spider):
 
 
 if __name__ == "__main__":
+    final_dicts = []
     URL_PAGES = []
-    URL_TEST = ["https://casadosdados.com.br/solucao/cnpj/luana-costa-gomes-47675542000128",
-                "https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
-                "https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120"]
+    URL_TEST = ["https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120",
+                # "https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
+                # "https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120"
+                ]
     url_testes = ["https://casadosdados.com.br/solucao/cnpj/a3-data-consultoria-s-a--07105493000173",
                   "https://casadosdados.com.br/solucao/cnpj/vr-consultoria-de-sistemas-ltda-14374209000120",
                   "https://casadosdados.com.br/solucao/cnpj/d-g-a-mitoso-31190635000122",
@@ -276,8 +288,8 @@ if __name__ == "__main__":
 
     @defer.inlineCallbacks
     def crawl():
-        yield runner.crawl(ScrapyURLs)
-        yield runner.crawl(ScrapyInformations, start_urls = URL_PAGES)
+        # yield runner.crawl(ScrapyURLs)
+        yield runner.crawl(ScrapyInformations, start_urls = URL_TEST, final_dicts=final_dicts)
         reactor.stop()
     crawl()
     reactor.run()

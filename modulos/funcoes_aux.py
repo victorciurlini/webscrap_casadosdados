@@ -42,6 +42,11 @@ def tratar_capital_social(df, coluna):
 
 def converte_data(df, coluna):
     new_df = df.copy()
+    # Trata dados nulos e datas inválidas
+    placeholder_date = "01/01/1900"
+    new_df[coluna] = new_df[coluna].apply(
+        lambda x: placeholder_date if pd.isna(x) or x == "01/01/0001" else x
+    )
     new_df[coluna] = pd.to_datetime(new_df[coluna], format='%d/%m/%Y')  # Converte para o tipo data
     new_df[coluna].dt.strftime('%Y-%m-%d %H:%M:%S')
     new_df[coluna] = new_df[coluna].dt.strftime('%Y-%m-%d %H:%M:%S')
@@ -59,6 +64,7 @@ def processa_dados(df):
 
 def cria_df(lista_dict):
     # transforma o dicionário em um dataframe, com separador | e utf-8
+    print(lista_dict)
     df = pd.DataFrame(lista_dict)
     column_mapping = {
     'CNPJ': 'CNPJ',
