@@ -250,6 +250,38 @@ Para que os dados sejam disponibilizados para o PowerBI, é necessário realizar
     \label{fig:dashboard}
 \end{figure}
 
-O painél permite os filtros interativos entre seus componentes, sendo possível realizar filtros por data, por UF e por capital social.
+O painel permite os filtros interativos entre seus componentes, sendo possível realizar filtros por data, por UF e por capital social.
 
 \subsection{devOPS}
+
+Visando as boas práticas de programação e o versionamento dos códigos, possibilitando voltar uma versão anterior em caso de erros de execução, o projeto foi desenvolvido realizando versionamentos utilizando o git e a metodologia aplicada para o desenvolvimento foi o gitflow. O gitflow é uma metodologia de desenvolvimento que permite a criação de branches, que são ramificações do código principal, permitindo mais clareza no desenvolvimento e aplicando a metodologia de gitflow. A figura \ref{fig:gitflow} apresenta o fluxo de desenvolvimento utilizando o gitflow.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{modelo_latex/figs/gitflow.png}
+    \caption{Fluxo de projeto utilizando gitflow}
+    \label{fig:gitflow}
+\end{figure}
+
+
+Na figura acima, é possível ver que o desenvolvimento é realizado na branch develop, que é a branch de desenvolvimento. Quando se é desenvolvida uma característica nova no algoritmo, é criada uma nova branch com o prefixo feature e um identificador da nova característica a ser desenvolvida ou outra nomenclatura adotada pelo time.
+
+Essa metodologia permite uma maior clareza no fluxo de projeto e, para projetos com diversos times trabalhando em paralelo, permite uma melhor gestão pelo engenheiro de software responsável pelo projeto.
+
+O gitflow também pode ser aplicado quando há apenas um desenvolvedor, pois ainda sim permite uma melhor gestão do projeto e uma maior clareza no fluxo de desenvolvimento.
+
+Visando também a proteção dos ambientes python instalados localmente, para cada projeto desenvolvido recomenda-se a criação de um ambiente virtual do python, utilizando a biblioteca venv. Essa biblioteca permite a criação de ambientes virtuais do python, permitindo que as bibliotecas que foram usadas no projeto estejam apenas dentro do projeto, sem interferir nas bibliotecas e versões de outros projetos na máquina local. Essa prática também facilita a criação do arquivo requirements.txt, pois apenas as dependências do projeto em questão serão levadas em conta, bem como as versões de cada biblioteca.
+
+\subsection{Implantação}
+
+Para a implantação dos algoritmos desenvolvidos, foi adotado duas metodologias, visando a maior praticidade e escalabilidade do projeto. A primeira metodologia é a utilização de containers, que permite a criação de ambientes isolados para a execução dos algoritmos. A segunda foi realizada através do versionamento do git com o código aberto na ferramenta, pois se tratava de um algoritmo mais simples, sem bibliotecas externas ao ambiente do AWS e python e que não exigia uma configuração mais complexa.
+
+\subsubsection{Webscrapper}
+
+Considerando a complexidade dessa solução e as diversas dependências de bibliotecas python que não constam no build-in ou nativamente do AWS, a implantação foi realizada utilizando Docker. O Docker é uma plataforma de código aberto que permite a criação, teste e implantação aplicativos rapidamente. O Docker embala o software em unidades padronizadas chamadas contêineres que incluem tudo o que o software precisa para ser executado, incluindo bibliotecas, ferramentas de sistema, código e tempo de execução. Como a solução em Docker já possui todas as dependências de sistema, é possível realizar a implantação em qualquer ambiente que possua o Docker instalado. o Lambda permite a implantação de uma imagem Docker, que é executada quando o serviço é acionado. Para a implantação, foi utilizado o serviço AWS ECR, que é um repositório de imagens Docker que permite o armazenamento e a implantação das imagens desenvolvidas.
+
+Para o desenvolvimento da imagem, foi utilizado o Dockerfile, que é um arquivo de configuração em texto que possui uma sequência de instruções necessárias para a construção de uma imagem Docker, contendo todos os requisitos de sistema para o projeto em questão. Foi desenvolvido também um arquivo docker-compose.yml que permite o versionamento de forma mais clara das imagens e conteiners docker criados.
+
+\subsubsection{Ingestão de dados}
+
+Para a implantação da ingestão de dados, o método de implantação escolhido foi o versionamento via github, pois a solução é simples e todas as bibliotecas utilizadas se encontram no build-in do python e no AWS. 
