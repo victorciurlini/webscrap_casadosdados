@@ -9,3 +9,7 @@ config/*
 .env
 *.pbix
 ingest_db_function/.pyenv/
+*.drawio
+*.bkp
+.aws-sam/
+template.yaml

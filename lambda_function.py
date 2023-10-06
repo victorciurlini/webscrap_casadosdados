@@ -44,8 +44,13 @@ def lambda_handler(event, context):
     timestamp = datetime.now().strftime("%Y%m%d%H%M")
     file_name = f"{timestamp}_informacoes_cnpj_sem_cargos.csv"
     df = cria_df(final_dicts)
-    # df.to_csv('dados/informacoes_cnpj_sem_cargos.csv', index=False, sep='|', encoding='utf-8')
+    # df.to_csv(f'dados/{file_name}', index=False, sep='|', encoding='utf-8')
     ingest_dataframe_to_s3(df, bucket_arn, file_name)
+    return {
+    'statusCode': 200,
+    'body': f'Pipeline executada com sucesso'
+    }
+
 
 if __name__ == "__main__":
     lambda_handler('','')
