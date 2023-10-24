@@ -23,7 +23,7 @@
 }
 
 
-@article{vassiliadis2002conceptual,
+@article{vassiliadis2002,
   title={A survey of extract-transform-load technology},
   author={Vassiliadis, Panos and Simitsis, Alkis and Skiadopoulos, Spiros},
   journal={International Journal of Data Warehousing and Mining (IJDWM)},
@@ -36,7 +36,8 @@
 @article{mell2011nist,
   title={The NIST definition of cloud computing},
   author={Mell, Peter and Grance, Timothy},
-  journal={National Institute of Standards}
+  journal={National Institute of Standards},
+year={2011}
 }
 
 @article{gupta2013adoption,
@@ -46,7 +47,7 @@
   volume={22},
   number={2},
   pages={140--154},
-  year={2013},
+  year={2013}
 }
 
 @article{sivarajah2017bigdata,
@@ -309,7 +310,7 @@
   note = {Acessado em: 18 de Julho de 2023}
 }
 
-@misc{scrapy,
+@misc{MySQL,
   author = {MySQL},
   title = {MySQL},
   year = {2023},
@@ -320,9 +321,6 @@
 @ article{Golfarelli2003,
 author = {Golfarelli, Matteo and Rizzi, Stefano and Cella, Ilaria},
 journal = {Proceedings of the ACM SIGMOD International Conference on Management of Data},
-month = {jun},
-number = {2},
-pages = {1--8},
 year = {2003}
 }
 
@@ -334,7 +332,7 @@ year = {2019}
 }
 
 
-@article{Date2003,
+@article{date2003,
 author = {Date, C. J.},
 journal = {ACM Computing Surveys},
 month = {mar},
@@ -369,6 +367,18 @@ month = {mar},
 year = {2019}
 }
 
+
+
+@article{chen2012business,
+  title={Business intelligence and analytics: From big data to big impact},
+  author={Chen, Hsinchun and Chiang, Roger HL and Storey, Veda C},
+  journal={MIS quarterly},
+  volume={36},
+  number={4},
+  pages={1165-1188},
+  year={2012},
+}
+
 @article{elmasri2019fundamentals,
   title={Fundamentals of database systems},
   author={Elmasri, R. and Navathe, S. B.},
@@ -376,12 +386,51 @@ year = {2019}
   year={2019}
 }
 
+@misc{github,
+  author = {Ciurlini, Victor},
+  title = {Web Scraping com Python},
+  year = {2023},
+  url = {https://github.com/victorciurlini/webscrap_casadosdados},
+  note = {Acessado em: 18 de Julho de 2023}
+}
 
+@article{vassiliadis2002conceptual,
+  title={A survey of extract-transform-load technology},
+  author={Vassiliadis, Panos and Simitsis, Alkis and Skiadopoulos, Spiros},
+  journal={International Journal of Data Warehousing and Mining (IJDWM)},
+  volume={5},
+  number={3},
+  pages={1--27},
+  year={2009},
+}
 
-\item Elmasri, R., & Navathe, S. B. (2019). Fundamentals of database systems. Pearson.
-\item Date, C. J. (2003). An introduction to database systems. Addison-Wesley.
-\item Connolly, T. M., & Begg, C. E. (2014). Database systems: A practical approach to design, implementation, and management. Pearson.
-\item Silberschatz, A., Korth, H. F., & Sudarshan, S. (2019). Database system concepts. McGraw-Hill Education.
-\item Reddy, C. K. (2013). Data analytics: From Big Data to big impact. International Journal of Information Management, 33(5), 761-764.
-\item Golfarelli, M., Rizzi, S., & Cella, I. (2003). Beyond data warehousing: What's next in business intelligence? In Proceedings of the 7th ACM international workshop on Data warehousing and OLAP (pp. 1-8).
-\item Ramakrishnan, R., & Gehrke, J. (2003). Database management systems. McGraw-Hill Education.
+@article{date2003introduction,
+title={date2003introduction},
+author = {Date, C. J.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+@article{silberschatz2019database,
+title={silberschatz2019},
+author = {Silberschatz, A. and Korth, H. F. and Sudarshan, S.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+@article{ramakrishnan2003database,
+title={ramakrishnan2003},
+author = {Ramakrishnan, R. and Gehrke, J.},
+journal = {ACM Computing Surveys},
+month = {mar},
+year = {2019}
+}
+
+@misc{s3,
+  title = {Bucket-s3 - AWS},
+  year = {2023},
+  url = {https://docs.aws.amazon.com/s3/},
+  note = {Acessado em: 18 de Julho de 2023}
+}
